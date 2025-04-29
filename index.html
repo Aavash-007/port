@@ -1,55 +1,265 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Aavash Adhikari – Portfolio</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Aavash Adhikari - CMD Portfolio</title>
   <style>
-    body {
-      background: #181818;
+    html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      background: #000;
       color: #fff;
-      font-family: monospace, monospace;
-      max-width: 600px;
-      margin: 40px auto;
-      padding: 24px;
-      line-height: 1.7;
+      font-family: 'Courier New', Courier, monospace;
+      overflow: hidden;
+    }
+    #donut-bg {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
+      z-index: 0;
+      background: #000;
+      pointer-events: auto;
+    }
+    #content {
+      position: relative;
+      z-index: 1;
+      width: 100vw;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      pointer-events: none;
+    }
+    .cmd-box {
+      background: rgba(0,0,0,0.85);
+      padding: 36px 32px 28px 32px;
+      border-radius: 8px;
+      box-shadow: 0 0 32px #000;
+      max-width: 540px;
+      width: 90vw;
+      pointer-events: auto;
     }
     h1 {
-      font-size: 2.2em;
-      margin-bottom: 0.2em;
-    }
-    .cv-btn {
-      display: inline-block;
-      margin: 24px 0;
-      padding: 12px 28px;
-      background: #1e90ff;
-      color: #fff;
-      text-decoration: none;
+      font-size: 1.4em;
+      margin-bottom: 0.7em;
       font-weight: bold;
-      border-radius: 6px;
-      transition: background 0.2s;
+      color: #fff;
+      letter-spacing: 1px;
     }
-    .cv-btn:hover {
-      background: #0059b3;
+    .cmd-line {
+      margin-bottom: 18px;
+      font-size: 1.07em;
+    }
+    .download-btn {
+      background: #fff;
+      color: #000;
+      border: none;
+      padding: 12px 28px;
+      font-weight: bold;
+      cursor: pointer;
+      border-radius: 3px;
+      margin-top: 12px;
+      margin-bottom: 30px;
+      font-size: 1.1em;
+      transition: background 0.2s, color 0.2s;
+      pointer-events: auto;
+    }
+    .download-btn:hover {
+      background: #000;
+      color: #fff;
+      border: 1px solid #fff;
+    }
+    .info {
+      margin-top: 10px;
+      font-size: 1.06em;
+      line-height: 1.7;
+    }
+    .info strong {
+      color: #fff;
     }
     .contact {
-      margin-top: 32px;
+      margin-top: 18px;
       font-size: 1em;
+    }
+    .contact a {
+      color: #fff;
+      text-decoration: underline;
+      pointer-events: auto;
+    }
+    .contact a:hover {
+      color: #ccc;
+    }
+    @media (max-width: 600px) {
+      .cmd-box { padding: 18px 8px 14px 8px; }
     }
   </style>
 </head>
 <body>
-  <h1>Aavash Adhikari</h1>
-  <p>
-    I’m Aavash Adhikari.<br>
-    Computer Engineering student, tech enthusiast, and aspiring engineer.<br>
-    I build, learn, and sometimes share my thoughts online.<br>
-    Inspired by simplicity.
-  </p>
+  <canvas id="donut-bg"></canvas>
+  <div id="content">
+    <div class="cmd-box">
+      <h1>C:\Users\AavashAdhikari&gt;</h1>
+      <div class="cmd-line">Welcome to my interactive terminal portfolio.</div>
+      <div class="cmd-line">Type <strong>help</strong> or scroll down to learn more.</div>
+      <button class="download-btn" onclick="downloadCV()">Download My CV</button>
+      <div class="info">
+        <p><strong>About Me:</strong><br>
+        Hi, I'm <strong>Aavash Adhikari</strong>, a Computer Engineering student and tech enthusiast from Nepal. I love building web applications, exploring new technologies, and solving real-world problems with code. My interests include software development, UI/UX, and open-source collaboration.</p>
+        <p><strong>Skills:</strong><br>
+        Python, JavaScript, C/C++ &middot; HTML5, CSS3, React.js &middot; Node.js &middot; Git &middot; Figma</p>
+        <p><strong>Projects:</strong><br>
+        - <strong>Portfolio Website:</strong> This very site, inspired by terminal aesthetics and interactive ASCII art.<br>
+        - <strong>Task Manager App:</strong> A productivity tool for organizing tasks.<br>
+        - <strong>Open Source Contributions:</strong> See my GitHub for more!</p>
+      </div>
+      <div class="contact">
+        Contact: <a href="mailto:aavashadhikari@email.com">aavashadhikari@email.com</a> &nbsp;|&nbsp;
+        <a href="https://github.com/yourusername" target="_blank">GitHub</a> &nbsp;|&nbsp;
+        <a href="https://linkedin.com/in/yourusername" target="_blank">LinkedIn</a>
+      </div>
+    </div>
+  </div>
+<script>
+// Donut parameters
+const canvas = document.getElementById('donut-bg');
+const ctx = canvas.getContext('2d');
+let width = window.innerWidth;
+let height = window.innerHeight;
+canvas.width = width;
+canvas.height = height;
 
-  <a class="cv-btn" href="AavashAdhikari_CV.pdf" download>
-    Download My CV
-  </a>
+// Donut animation state
+let A = 0, B = 0;
+let dragging = false, lastX = 0, lastY = 0;
+
+function resizeCanvas() {
+  width = window.innerWidth;
+  height = window.innerHeight;
+  canvas.width = width;
+  canvas.height = height;
+}
+window.addEventListener('resize', resizeCanvas);
+
+// Interaction: click and drag to rotate donut
+canvas.addEventListener('mousedown', e => {
+  dragging = true;
+  lastX = e.clientX;
+  lastY = e.clientY;
+});
+window.addEventListener('mousemove', e => {
+  if (dragging) {
+    A += (e.clientY - lastY) * 0.01;
+    B += (e.clientX - lastX) * 0.01;
+    lastX = e.clientX;
+    lastY = e.clientY;
+  }
+});
+window.addEventListener('mouseup', () => dragging = false);
+canvas.addEventListener('touchstart', e => {
+  dragging = true;
+  lastX = e.touches[0].clientX;
+  lastY = e.touches[0].clientY;
+});
+window.addEventListener('touchmove', e => {
+  if (dragging && e.touches.length === 1) {
+    A += (e.touches[0].clientY - lastY) * 0.01;
+    B += (e.touches[0].clientX - lastX) * 0.01;
+    lastX = e.touches[0].clientX;
+    lastY = e.touches[0].clientY;
+  }
+});
+window.addEventListener('touchend', () => dragging = false);
+
+function drawDonut() {
+  ctx.clearRect(0, 0, width, height);
+  ctx.font = "12px 'Courier New', monospace";
+  ctx.fillStyle = "#fff";
+  let chars = ".,-~:;=!*#$@";
+  let thetaSpacing = 0.09, phiSpacing = 0.04;
+  let R1 = 1, R2 = 2, K2 = 5;
+  let K1 = width * K2 * 3 / (8 * (R1 + R2));
+  let zBuffer = [];
+  let output = [];
+
+  // ASCII grid size
+  let rows = Math.floor(height / 14);
+  let cols = Math.floor(width / 8);
+
+  // Initialize buffers
+  for (let i = 0; i < rows * cols; ++i) {
+    zBuffer[i] = 0;
+    output[i] = ' ';
+  }
+
+  for (let j = 0; j < 6.28; j += phiSpacing) {
+    for (let i = 0; i < 6.28; i += thetaSpacing) {
+      let sinA = Math.sin(A), cosA = Math.cos(A);
+      let sinB = Math.sin(B), cosB = Math.cos(B);
+      let sinI = Math.sin(i), cosI = Math.cos(i);
+      let sinJ = Math.sin(j), cosJ = Math.cos(j);
+
+      let circleX = R2 + R1 * cosI;
+      let circleY = R1 * sinI;
+
+      let x = circleX * (cosB * cosJ + sinA * sinB * sinJ) - circleY * cosA * sinB;
+      let y = circleX * (sinB * cosJ - sinA * cosB * sinJ) + circleY * cosA * cosB;
+      let z = K2 + cosA * circleX * sinJ + circleY * sinA;
+      let ooz = 1 / z;
+
+      let xp = Math.floor(cols / 2 + K1 * ooz * x / 35);
+      let yp = Math.floor(rows / 2 - K1 * ooz * y / 18);
+
+      let L = cosJ * cosI * sinB - cosA * cosI * sinJ - sinA * sinI + cosB * (cosA * sinI - cosI * sinA * sinJ);
+      let luminance_index = Math.floor(L * 8);
+
+      if (luminance_index > 0 && xp >= 0 && xp < cols && yp >= 0 && yp < rows) {
+        let idx = xp + yp * cols;
+        if (ooz > zBuffer[idx]) {
+          zBuffer[idx] = ooz;
+          output[idx] = chars[luminance_index > 11 ? 11 : luminance_index];
+        }
+      }
+    }
+  }
+
+  // Draw ASCII donut
+  for (let y = 0; y < rows; ++y) {
+    for (let x = 0; x < cols; ++x) {
+      let char = output[x + y * cols];
+      if (char !== ' ') {
+        ctx.fillText(char, x * 8, y * 14);
+      }
+    }
+  }
+}
+
+// Animation loop (medium-slow speed)
+function animate() {
+  if (!dragging) {
+    A += 0.025; // slower than default
+    B += 0.012;
+  }
+  drawDonut();
+  requestAnimationFrame(animate);
+}
+animate();
+
+// Download CV
+function downloadCV() {
+  const link = document.createElement('a');
+  link.href = 'AavashAdhikari_CV.pdf'; // Place your CV in the same directory
+  link.download = 'AavashAdhikari_CV.pdf';
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+}
+</script>
+</body>
+</html>
+
 
   <div class="contact">
     Email: <a href="mailto:aavash10165@gmail.com" style="color:#1e90ff;">aavash10165@gmail.com</a>
