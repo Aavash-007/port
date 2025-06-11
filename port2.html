@@ -1,112 +1,204 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Aavash Adhikari – Portfolio</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Aavash Adhikari - CMD Portfolio</title>
   <style>
     body {
-      background: #181818;
-      color: #fff;
-      font-family: 'Segoe UI', monospace, monospace;
-      max-width: 700px;
-      margin: 40px auto;
-      padding: 24px;
-      line-height: 1.7;
+      background: #000;
+      color: #00ff00;
+      font-family: 'Courier New', Courier, monospace;
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
-    h1, h2 {
-      color: #1e90ff;
+    #terminal {
+      width: 90vw;
+      max-width: 850px;
+      background: #000;
+      border: 2px solid #00ff00;
+      padding: 32px 24px 24px 24px;
+      box-sizing: border-box;
+      box-shadow: 0 0 18px #00ff00;
+      border-radius: 7px;
+      min-height: 650px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
-    .cv-btn {
-      display: inline-block;
-      margin: 24px 0;
-      padding: 14px 32px;
-      background: #1e90ff;
-      color: #fff;
-      text-decoration: none;
+    h1 {
+      font-size: 1.5em;
+      margin-bottom: 0.7em;
       font-weight: bold;
-      border-radius: 6px;
+      color: #00ff00;
+      letter-spacing: 2px;
+    }
+    .cmd-line {
+      margin-bottom: 18px;
+      font-size: 1.1em;
+    }
+    .download-btn {
+      background: #00ff00;
+      color: #000;
+      border: none;
+      padding: 12px 28px;
+      font-weight: bold;
+      cursor: pointer;
+      border-radius: 3px;
+      margin-top: 12px;
+      margin-bottom: 30px;
       font-size: 1.1em;
       transition: background 0.2s;
     }
-    .cv-btn:hover {
-      background: #0059b3;
+    .download-btn:hover {
+      background: #00cc00;
     }
-    .section {
-      margin-bottom: 36px;
+    #donutCanvas {
+      display: block;
+      margin: 0 auto 28px auto;
+      background: #000;
+      border: 1px solid #00ff00;
+      border-radius: 5px;
     }
-    .skills-list, .projects-list {
-      list-style: none;
-      padding: 0;
+    .info {
+      margin-top: 10px;
+      font-size: 1.06em;
+      width: 100%;
+      max-width: 650px;
+      line-height: 1.7;
     }
-    .skills-list li, .projects-list li {
-      margin-bottom: 8px;
+    .info strong {
+      color: #00ff00;
+    }
+    .contact {
+      margin-top: 20px;
+      font-size: 1em;
     }
     .contact a {
-      color: #1e90ff;
-      text-decoration: none;
-    }
-    .contact a:hover {
+      color: #00ff00;
       text-decoration: underline;
     }
-    .profile-img {
-      width: 120px;
-      border-radius: 50%;
-      margin-bottom: 18px;
+    .contact a:hover {
+      color: #fff;
     }
   </style>
-  
 </head>
 <body>
-  <img src="your-photo.jpg" alt="Aavash Adhikari" class="profile-img">
-  <h1>Aavash Adhikari</h1>
-  <p>
-    Computer Engineering student & aspiring software developer.<br>
-    Passionate about technology, web development, and digital innovation.<br>
-    Based in Nepal.
-  </p>
+  <div id="terminal">
+    <h1>C:\Users\AavashAdhikari&gt;</h1>
+    <div class="cmd-line">Welcome to my interactive terminal portfolio.</div>
+    <div class="cmd-line">Type <strong>help</strong> or scroll down to learn more.</div>
+    <button class="download-btn" onclick="downloadCV()">Download My CV</button>
+    <canvas id="donutCanvas" width="350" height="350"></canvas>
 
- 
-
-  <div class="section">
-    <h2>About Me</h2>
-    <p>
-      I am a dedicated and curious learner, currently pursuing my degree in Computer Engineering. I enjoy building web applications, exploring new technologies, and collaborating on open-source projects. My interests include software development, UI/UX design, and problem-solving. I believe in continuous learning and strive to make a positive impact through technology.
-    </p>
+    <div class="info">
+      <p><strong>About Me:</strong> <br>
+      Hi, I'm <strong>Aavash Adhikari</strong>, a Computer Engineering student and tech enthusiast from Nepal. I love building web applications, exploring new technologies, and solving real-world problems with code. My interests include software development, UI/UX, and open-source collaboration.</p>
+      <p><strong>Skills:</strong> <br>
+      Python, JavaScript, C/C++ &middot; HTML5, CSS3, React.js &middot; Node.js &middot; Git &middot; Figma</p>
+      <p><strong>Projects:</strong> <br>
+      - <strong>Portfolio Website:</strong> This very site, inspired by terminal aesthetics and interactive ASCII art.<br>
+      - <strong>Task Manager App:</strong> A productivity tool for organizing tasks.<br>
+      - <strong>Open Source Contributions:</strong> See my GitHub for more!</p>
+    </div>
+    <div class="contact">
+      Contact: <a href="mailto:aavashadhikari@email.com">aavashadhikari@email.com</a> &nbsp;|&nbsp;
+      <a href="https://github.com/yourusername" target="_blank">GitHub</a> &nbsp;|&nbsp;
+      <a href="https://linkedin.com/in/yourusername" target="_blank">LinkedIn</a>
+    </div>
   </div>
+<script>
+const canvas = document.getElementById('donutCanvas');
+const ctx = canvas.getContext('2d');
+const width = canvas.width;
+const height = canvas.height;
 
-  <div class="section">
-    <h2>Skills</h2>
-    <ul class="skills-list">
-      <li>Programming: Python, JavaScript, C/C++</li>
-      <li>Web: HTML5, CSS3, React.js, Node.js</li>
-      <li>Tools: Git, VS Code, Figma</li>
-      <li>Languages: Nepali, English</li>
-    </ul>
-  </div>
+const chars = ".,-~:;=!*#$@";
+const thetaSpacing = 0.07;
+const phiSpacing = 0.02;
+const R1 = 1;
+const R2 = 2;
+const K2 = 5;
+const K1 = width * K2 * 3 / (8 * (R1 + R2));
 
-  <div class="section">
-    <h2>Projects</h2>
-    <ul class="projects-list">
-      <li>
-        <strong>Personal Portfolio Website</strong> – This site! Built to showcase my work and resume.
-      </li>
-      <li>
-        <strong>Task Manager App</strong> – A web-based productivity tool for managing daily tasks.
-      </li>
-      <li>
-        <strong>Open Source Contributions</strong> – Contributed to various GitHub projects (see my GitHub below).
-      </li>
-    </ul>
-  </div>
+let A = 0;
+let B = 0;
 
-  <div class="section contact">
-    <h2>Contact</h2>
-    <p>
-      Email: <a href="mailto:aavashadhikari@email.com">aavashadhikari@email.com</a><br>
-      GitHub: <a href="https://github.com/yourusername" target="_blank">github.com/yourusername</a><br>
-      LinkedIn: <a href="https://linkedin.com/in/yourusername" target="_blank">linkedin.com/in/yourusername</a>
-    </p>
-  </div>
+function downloadCV() {
+  const link = document.createElement('a');
+  link.href = 'AavashAdhikari_CV.pdf'; // Place your CV in the same directory
+  link.download = 'AavashAdhikari_CV.pdf';
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+}
+
+// 3D Spinning Donut Animation
+function renderFrame() {
+  ctx.fillStyle = 'black';
+  ctx.fillRect(0, 0, width, height);
+
+  let zBuffer = new Array(width * height).fill(0);
+  let output = new Array(width * height).fill(' ');
+
+  for (let j = 0; j < 6.28; j += phiSpacing) {
+    for (let i = 0; i < 6.28; i += thetaSpacing) {
+      let sinA = Math.sin(A);
+      let cosA = Math.cos(A);
+      let sinB = Math.sin(B);
+      let cosB = Math.cos(B);
+
+      let sinI = Math.sin(i);
+      let cosI = Math.cos(i);
+      let sinJ = Math.sin(j);
+      let cosJ = Math.cos(j);
+
+      let circleX = R2 + R1 * cosI;
+      let circleY = R1 * sinI;
+
+      let x = circleX * (cosB * cosJ + sinA * sinB * sinJ) - circleY * cosA * sinB;
+      let y = circleX * (sinB * cosJ - sinA * cosB * sinJ) + circleY * cosA * cosB;
+      let z = K2 + cosA * circleX * sinJ + circleY * sinA;
+      let ooz = 1 / z;
+
+      let xp = Math.floor(width / 2 + K1 * ooz * x);
+      let yp = Math.floor(height / 2 - K1 * ooz * y);
+
+      let L = cosJ * cosI * sinB - cosA * cosI * sinJ - sinA * sinI + cosB * (cosA * sinI - cosI * sinA * sinJ);
+
+      let luminance_index = Math.floor(L * 8);
+
+      if (luminance_index >= 0 && xp >= 0 && xp < width && yp >= 0 && yp < height) {
+        let idx = xp + yp * width;
+        if (ooz > zBuffer[idx]) {
+          zBuffer[idx] = ooz;
+          output[idx] = chars[luminance_index > 11 ? 11 : luminance_index];
+        }
+      }
+    }
+  }
+
+  ctx.fillStyle = '#00ff00';
+  ctx.font = '11px Courier New';
+  ctx.textBaseline = 'top';
+
+  for (let y = 0; y < height; y += 12) {
+    for (let x = 0; x < width; x += 7) {
+      let char = output[x + y * width];
+      ctx.fillText(char, x, y);
+    }
+  }
+
+  A += 0.07;
+  B += 0.03;
+  requestAnimationFrame(renderFrame);
+}
+
+renderFrame();
+</script>
 </body>
 </html>
