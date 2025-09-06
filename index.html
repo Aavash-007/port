@@ -2,51 +2,971 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>My Motherfucking Portfolio</title>
+  <title>AAVASH@TERMINAL:~$</title>
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    @import url('https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700&display=swap');
+
     body {
-      background: #fff;
-      color: #000;
-      font-family: sans-serif;
-      margin: 2em;
-      max-width: 700px;
-      line-height: 1.6;
+      background: #000;
+      color: #00ff00;
+      font-family: 'Courier Prime', 'Courier New', monospace;
+      font-size: 14px;
+      line-height: 1.4;
+      overflow-x: auto;
+      cursor: text;
     }
-    h1, h2 {
-      margin-top: 1.5em;
-      margin-bottom: 0.5em;
+
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: 
+        linear-gradient(90deg, transparent 98%, rgba(0, 255, 0, 0.03) 100%),
+        linear-gradient(180deg, transparent 98%, rgba(0, 255, 0, 0.03) 100%);
+      background-size: 3px 3px;
+      pointer-events: none;
+      z-index: 1;
     }
-    a { color: #06c; }
-    code { background: #eee; padding: 2px 4px; }
+
+    .container {
+      position: relative;
+      z-index: 2;
+      padding: 20px;
+      min-height: 100vh;
+      max-width: none;
+    }
+
+    .terminal-header {
+      border: 1px solid #00ff00;
+      padding: 10px;
+      margin-bottom: 20px;
+      background: rgba(0, 255, 0, 0.05);
+    }
+
+    .system-info {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      margin-bottom: 10px;
+    }
+
+    .blinking {
+      animation: blink 1s infinite;
+    }
+
+    @keyframes blink {
+      0%, 50% { opacity: 1; }
+      51%, 100% { opacity: 0; }
+    }
+
+    .prompt {
+      color: #00ff00;
+      user-select: none;
+    }
+
+    .command {
+      color: #ffff00;
+    }
+
+    .output {
+      color: #00ff00;
+      margin-left: 0;
+      white-space: pre-wrap;
+    }
+
+    .error {
+      color: #ff0000;
+    }
+
+    .warning {
+      color: #ffaa00;
+    }
+
+    .section {
+      margin: 30px 0;
+      padding: 20px;
+      border: 1px solid #00ff00;
+      background: rgba(0, 255, 0, 0.02);
+    }
+
+    .ascii-art {
+      color: #00ff00;
+      font-size: 12px;
+      line-height: 1.2;
+      margin: 20px 0;
+      text-align: center;
+    }
+
+    .matrix-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.1;
+    }
+
+    .progress-bar {
+      display: flex;
+      align-items: center;
+      margin: 5px 0;
+    }
+
+    .progress-label {
+      width: 200px;
+      color: #00ff00;
+    }
+
+    .progress-track {
+      flex: 1;
+      background: #003300;
+      height: 20px;
+      border: 1px solid #00ff00;
+      margin: 0 10px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: #00ff00;
+      transition: width 3s ease-in-out;
+      width: 0%;
+    }
+
+    .progress-percent {
+      color: #00ff00;
+      width: 50px;
+      text-align: right;
+    }
+
+    .file-listing {
+      margin: 10px 0;
+    }
+
+    .file-line {
+      margin: 2px 0;
+    }
+
+    .file-permissions {
+      color: #ffff00;
+    }
+
+    .file-size {
+      color: #00ffff;
+    }
+
+    .file-name {
+      color: #00ff00;
+    }
+
+    .directory {
+      color: #0099ff;
+      font-weight: bold;
+    }
+
+    .executable {
+      color: #ff0099;
+      font-weight: bold;
+    }
+
+    .log-entry {
+      margin: 5px 0;
+      display: flex;
+    }
+
+    .timestamp {
+      color: #666;
+      margin-right: 10px;
+      width: 80px;
+    }
+
+    .log-level {
+      margin-right: 10px;
+      width: 60px;
+    }
+
+    .log-info { color: #00ff00; }
+    .log-warn { color: #ffaa00; }
+    .log-error { color: #ff0000; }
+
+    .network-monitor {
+      border: 1px solid #00ff00;
+      padding: 10px;
+      margin: 10px 0;
+      background: rgba(0, 255, 0, 0.02);
+    }
+
+    .typing-simulation {
+      border-right: 2px solid #00ff00;
+      animation: blink 1s infinite;
+    }
+
+    .hack-menu {
+      border: 1px solid #00ff00;
+      padding: 15px;
+      margin: 20px 0;
+      background: rgba(0, 255, 0, 0.05);
+    }
+
+    .menu-item {
+      padding: 5px 0;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .menu-item:hover {
+      background: rgba(0, 255, 0, 0.1);
+      padding-left: 10px;
+    }
+
+    .scan-animation {
+      animation: scan 2s infinite;
+    }
+
+    @keyframes scan {
+      0% { background-position: -200px 0; }
+      100% { background-position: 200px 0; }
+    }
+
+    .status-online { color: #00ff00; }
+    .status-offline { color: #ff0000; }
+    .status-warning { color: #ffaa00; }
+
+    pre {
+      color: #00ff00;
+      margin: 10px 0;
+      white-space: pre-wrap;
+    }
+
+    .loading {
+      display: inline-block;
+      animation: loading 1.5s infinite;
+    }
+
+    @keyframes loading {
+      0%, 100% { content: '|'; }
+      25% { content: '/'; }
+      50% { content: '-'; }
+      75% { content: '\\'; }
+    }
+
+    .connection-status {
+      position: fixed;
+      top: 10px;
+      right: 10px;
+      background: rgba(0, 0, 0, 0.8);
+      border: 1px solid #00ff00;
+      padding: 5px 10px;
+      z-index: 100;
+    }
+
+    @media (max-width: 768px) {
+      body { font-size: 12px; }
+      .container { padding: 10px; }
+      .system-info { flex-direction: column; }
+      .progress-label { width: 150px; }
+    }
+
+    .clickable {
+      cursor: pointer;
+      transition: color 0.2s;
+    }
+
+    .clickable:hover {
+      color: #ffff00;
+    }
   </style>
 </head>
 <body>
-  <h1>My Motherfucking Portfolio</h1>
-  <p>This is my motherfucking portfolio. I’m a 4th year computer engineering student. What else do you need to know?</p>
-  <h2>Who the fuck am I?</h2>
-  <p>I’m a computer engineering student in my final year. I write code, build shit, and make computers do what I want.</p>
-  <h2>What the fuck can I do?</h2>
-  <ul>
-    <li>Write clean, efficient code (unlike your bloated-ass JavaScript frameworks)</li>
-    <li>Build websites that load faster than your morning coffee</li>
-    <li>Solve problems with logic, not with 40MB of dependencies</li>
-    <li>Work with C, C++, Python, Java, and whatever else you throw at me</li>
-    <li>Actually understand how computers work (no, not just drag-and-drop bullshit)</li>
-  </ul>
-  <h2>Projects</h2>
-  <ul>
-    <li><strong>Smart Attendance System</strong><br>Used face recognition. No, I didn’t use a 500MB library for it.</li>
-    <li><strong>Personal Blog Engine</strong><br>Written from scratch. Loads in less than a second.</li>
-    <li><strong>IoT Weather Station</strong><br>Because I like knowing if it’s going to rain on my way to class.</li>
-  </ul>
-  <h2>Contact Me</h2>
-  <p>Want to hire me? Collaborate? Or just tell me my site is too simple?<br>
-  Email: <a href="mailto:your.email@example.com">your.email@example.com</a></p>
-  <hr>
-  <blockquote>
-    “Good design is as little design as possible.”<br>
-    – some German motherfucker
-  </blockquote>
+  <div class="connection-status">
+    <span class="status-online">● CONNECTED</span>
+  </div>
+
+  <div class="matrix-bg" id="matrixBg"></div>
+
+  <div class="container">
+    <div class="terminal-header">
+      <div class="system-info">
+        <span>SYSTEM: AAVASH-TERMINAL v2.1.3</span>
+        <span>UPTIME: 247 DAYS</span>
+        <span>LOAD: 1.37</span>
+        <span>MEM: 13.37GB</span>
+        <span id="current-time"></span>
+      </div>
+      <div>SESSION: PORTFOLIO_ACCESS | USER: GUEST | PID: 31337</div>
+    </div>
+
+    <div class="ascii-art">
+      <pre>
+    ██████╗  ██████╗ ██████╗ ████████╗███████╗ ██████╗ ██╗     ██╗ ██████╗ 
+    ██╔══██╗██╔═══██╗██╔══██╗╚══██╔══╝██╔════╝██╔═══██╗██║     ██║██╔═══██╗
+    ██████╔╝██║   ██║██████╔╝   ██║   █████╗  ██║   ██║██║     ██║██║   ██║
+    ██╔═══╝ ██║   ██║██╔══██╗   ██║   ██╔══╝  ██║   ██║██║     ██║██║   ██║
+    ██║     ╚██████╔╝██║  ██║   ██║   ██║     ╚██████╔╝███████╗██║╚██████╔╝
+    ╚═╝      ╚═════╝ ╚═╝  ╚═╝   ╚═╝   ╚═╝      ╚═════╝ ╚══════╝╚═╝ ╚═════╝ 
+      </pre>
+    </div>
+
+    <div class="section">
+      <div class="prompt">root@aavash-system:~# </div><span class="command">cat /etc/passwd | grep aavash</span>
+      <div class="output">aavash:x:1000:1000:Computer Engineering Student,Final Year,KU,,,:/home/aavash:/bin/bash</div>
+      <br>
+      <div class="prompt">root@aavash-system:~# </div><span class="command">whoami && pwd</span>
+      <div class="output">aavash
+/home/aavash/portfolio</div>
+      <br>
+      <div class="prompt">root@aavash-system:~# </div><span class="command">echo $MISSION</span>
+      <div class="output">I write code, build shit, and make computers do what I want.</div>
+    </div>
+
+    <div class="section">
+      <div class="prompt">root@aavash-system:~# </div><span class="command">./scan_skills.sh --verbose</span>
+      <div class="output">
+[INFO] Initializing skill scanner...
+[INFO] Scanning /usr/local/skills/*
+[<span class="loading"></span>] Processing skill modules...
+
+SKILL ANALYSIS COMPLETE:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+</div>
+      
+      <div class="progress-bar">
+        <div class="progress-label">C/C++ Programming</div>
+        <div class="progress-track">
+          <div class="progress-fill" data-width="90"></div>
+        </div>
+        <div class="progress-percent">90%</div>
+      </div>
+      
+      <div class="progress-bar">
+        <div class="progress-label">Python Development</div>
+        <div class="progress-track">
+          <div class="progress-fill" data-width="85"></div>
+        </div>
+        <div class="progress-percent">85%</div>
+      </div>
+      
+      <div class="progress-bar">
+        <div class="progress-label">Web Technologies</div>
+        <div class="progress-track">
+          <div class="progress-fill" data-width="80"></div>
+        </div>
+        <div class="progress-percent">80%</div>
+      </div>
+      
+      <div class="progress-bar">
+        <div class="progress-label">Hardware Design</div>
+        <div class="progress-track">
+          <div class="progress-fill" data-width="75"></div>
+        </div>
+        <div class="progress-percent">75%</div>
+      </div>
+      
+      <div class="progress-bar">
+        <div class="progress-label">Reverse Engineering</div>
+        <div class="progress-track">
+          <div class="progress-fill" data-width="70"></div>
+        </div>
+        <div class="progress-percent">70%</div>
+      </div>
+      
+      <div class="progress-bar">
+        <div class="progress-label">Biomimicry Research</div>
+        <div class="progress-track">
+          <div class="progress-fill" data-width="65"></div>
+        </div>
+        <div class="progress-percent">65%</div>
+      </div>
+
+      <div class="output">
+[SUCCESS] Skill scan completed. No vulnerabilities detected.
+[INFO] Python mastery: EXCEPTIONAL - ML/AI capabilities confirmed
+[INFO] Clean code practices: ENABLED - Pythonic patterns detected  
+[INFO] Logic over dependencies: ACTIVE - Efficient algorithms confirmed
+[INFO] Problem-solving protocols: OPTIMIZED - 1337-level debugging skills
+[WARN] Coffee dependency detected: CRITICAL but manageable
+[STATUS] Ready for production deployment at enterprise level
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="prompt">root@aavash-system:~# </div><span class="command">ls -la /home/aavash/projects/</span>
+      <div class="file-listing">
+        <div class="file-line">total 42</div>
+        <div class="file-line"><span class="file-permissions">drwxr-xr-x</span> 7 aavash aavash <span class="file-size">4096</span> Nov 15 13:37 <span class="directory">.</span></div>
+        <div class="file-line"><span class="file-permissions">drwxr-xr-x</span> 3 aavash aavash <span class="file-size">4096</span> Oct 01 09:42 <span class="directory">..</span></div>
+        <div class="file-line clickable" onclick="showProject('loan')"><span class="file-permissions">-rwxr-xr-x</span> 1 aavash aavash <span class="file-size">15MB</span> Nov 10 14:20 <span class="executable">loan_prediction_system.py</span></div>
+        <div class="file-line clickable" onclick="showProject('blog')"><span class="file-permissions">-rwxr-xr-x</span> 1 aavash aavash <span class="file-size">2.1MB</span> Nov 05 11:33 <span class="executable">blog_engine</span></div>
+        <div class="file-line clickable" onclick="showProject('iot')"><span class="file-permissions">-rwxr-xr-x</span> 1 aavash aavash <span class="file-size">8.5MB</span> Oct 28 16:45 <span class="executable">iot_aqmps_station.ino</span></div>
+        <div class="file-line clickable" onclick="showProject('fractal')"><span class="file-permissions">-rwxr-xr-x</span> 1 aavash aavash <span class="file-size">3.7MB</span> Nov 12 09:15 <span class="executable">fractal_generator.py</span></div>
+        <div class="file-line clickable" onclick="showProject('gis')"><span class="file-permissions">-rwxr-xr-x</span> 1 aavash aavash <span class="file-size">12MB</span> Oct 20 13:22 <span class="executable">gis_hazard_surveillance</span></div>
+        <div class="file-line"><span class="file-permissions">-rw-r--r--</span> 1 aavash aavash <span class="file-size">1.2KB</span> Nov 15 13:37 <span class="file-name">README.md</span></div>
+      </div>
+    </div>
+
+    <div class="section" id="project-details" style="display: none;">
+      <div class="prompt">root@aavash-system:~# </div><span class="command">file <span id="project-file"></span> && cat <span id="project-file2"></span>/info.txt</span>
+      <div class="output" id="project-output"></div>
+    </div>
+
+    <div class="section">
+      <div class="prompt">root@aavash-system:~# </div><span class="command">netstat -tuln | grep LISTEN</span>
+      <div class="network-monitor">
+        <div class="log-entry">
+          <span class="timestamp">13:37:01</span>
+          <span class="log-level log-info">[INFO]</span>
+          <span>Active Internet connections (only servers)</span>
+        </div>
+        <div class="log-entry">
+          <span class="timestamp">13:37:01</span>
+          <span class="log-level log-info">[OPEN]</span>
+          <span>tcp 0.0.0.0:22 SSH daemon - SECURE</span>
+        </div>
+        <div class="log-entry">
+          <span class="timestamp">13:37:02</span>
+          <span class="log-level log-info">[OPEN]</span>
+          <span>tcp 0.0.0.0:80 Blog Engine - OPTIMIZED</span>
+        </div>
+        <div class="log-entry">
+          <span class="timestamp">13:37:02</span>
+          <span class="log-level log-info">[OPEN]</span>
+          <span>tcp 0.0.0.0:3001 ML API Server - LEARNING</span>
+        </div>
+        <div class="log-entry">
+          <span class="timestamp">13:37:03</span>
+          <span class="log-level log-warn">[SCAN]</span>
+          <span>udp 0.0.0.0:53 IoT Sensor Network - MONITORING</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="prompt">root@aavash-system:~# </div><span class="command">tail -f /var/log/system.log</span>
+      <div class="output">
+Nov 15 13:35:42 aavash kernel: Coffee levels: CRITICAL - refill required
+Nov 15 13:36:15 aavash cron: Successfully compiled C++ project in 0.8s
+Nov 15 13:36:58 aavash git: Pushed 3 commits to biomimicry-research repo
+Nov 15 13:37:12 aavash system: Bug found and eliminated in 12 minutes
+Nov 15 13:37:33 aavash portfolio: Visitor accessed terminal interface
+Nov 15 13:37:45 aavash brain: Processing new algorithm optimization...
+      </div>
+    </div>
+
+    <div class="hack-menu">
+      <div class="prompt">root@aavash-system:~# </div><span class="command">./contact_menu.sh</span>
+      <div class="output">
+┌─────────────────────────────────────────────────────────────┐
+│                    CONTACT PROTOCOL MENU                    │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│  [1] Email Communication Channel                            │
+│      └─ aavashbkt15@gmail.com                              │
+│                                                             │
+│  [2] Secure Direct Message                                  │
+│      └─ Encrypted channel available                         │
+│                                                             │
+│  [3] Professional Network Access                            │
+│      └─ LinkedIn profile sync                               │
+│                                                             │
+│  [4] Code Repository Inspection                             │
+│      └─ GitHub.com/aavash                                   │
+│                                                             │
+│  [5] Download Resume Database                               │
+│      └─ Full credentials and achievements                   │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+      </div>
+      <br>
+      <div class="menu-item clickable" onclick="contactMethod('email')">► Execute Email Protocol</div>
+      <div class="menu-item clickable" onclick="contactMethod('resume')">► Download Resume Package</div>
+      <div class="menu-item clickable" onclick="contactMethod('github')">► Access Code Repository</div>
+    </div>
+
+    <div class="section">
+      <div class="prompt">root@aavash-system:~# </div><span class="command">fortune | cowsay</span>
+      <pre class="output">
+ ___________________________________
+< "Good design is as little design  >
+< as possible." - Dieter Rams       >
+ -----------------------------------
+        \   ^__^
+         \  (oo)\_______
+            (__)\       )\/\
+                ||----w |
+                ||     ||
+      </pre>
+    </div>
+
+    <div class="section">
+      <div class="prompt">root@aavash-system:~# </div><span class="command">exit</span>
+      <div class="output">logout</div>
+      <div class="output blinking">Connection to portfolio.aavash.dev closed.</div>
+    </div>
+  </div>
+
+  <script>
+    // Update current time
+    function updateTime() {
+      const now = new Date();
+      document.getElementById('current-time').textContent = 
+        now.toTimeString().split(' ')[0];
+    }
+    setInterval(updateTime, 1000);
+    updateTime();
+
+    // Animate progress bars
+    function animateProgress() {
+      setTimeout(() => {
+        const bars = document.querySelectorAll('.progress-fill');
+        bars.forEach(bar => {
+          const width = bar.getAttribute('data-width');
+          bar.style.width = width + '%';
+        });
+      }, 2000);
+    }
+
+    // Matrix rain effect
+    function createMatrixRain() {
+      const chars = "01アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン";
+      const matrix = document.getElementById('matrixBg');
+      
+      for (let i = 0; i < 50; i++) {
+        const span = document.createElement('span');
+        span.style.position = 'absolute';
+        span.style.left = Math.random() * 100 + '%';
+        span.style.animationDuration = (Math.random() * 10 + 5) + 's';
+        span.style.animationName = 'fall';
+        span.style.color = '#00ff00';
+        span.style.fontSize = '12px';
+        span.textContent = chars[Math.floor(Math.random() * chars.length)];
+        matrix.appendChild(span);
+      }
+    }
+
+    // Add CSS for falling animation
+    const style = document.createElement('style');
+    style.textContent = `
+      @keyframes fall {
+        0% { transform: translateY(-100vh); opacity: 1; }
+        100% { transform: translateY(100vh); opacity: 0; }
+      }
+    `;
+    document.head.appendChild(style);
+
+    // Project details
+    const projects = {
+      loan: {
+        file: 'loan_prediction_system.py',
+        info: `loan_prediction_system.py: Python script, ASCII text executable
+
+LOAN PREDICTION SYSTEM v2.1
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+• ML-powered loan approval with 94% accuracy
+• Technologies: Python, Scikit-learn, Pandas, NumPy
+• Features: Risk assessment, automated decisions
+• Status: PRODUCTION READY
+• Dependencies: Clean & optimized`
+      },
+      blog: {
+        file: 'blog_engine',
+        info: `blog_engine: ELF 64-bit LSB executable, stripped
+
+PERSONAL BLOG ENGINE v1.0
+━━━━━━━━━━━━━━━━━━━━━━━━━━━
+• Custom-built from scratch in C++
+• Load time: <1 second (faster than your coffee)
+• Technologies: C++, SQLite, Custom HTTP server
+• Features: Zero bloat, maximum performance
+• Status: BLAZING FAST`
+      },
+      iot: {
+        file: 'iot_aqmps_station.ino',
+        info: `iot_aqmps_station.ino: Arduino sketch, UTF-8 text
+
+IoT AIR QUALITY MONITORING v3.0
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+• Portable air quality station for campus
+• Technologies: Arduino, ESP32, Multiple sensors
+• Features: Real-time monitoring, WiFi connectivity
+• Sensors: PM2.5, CO2, Temperature, Humidity
+• Status: DEPLOYED & MONITORING`
+      },
+      fractal: {
+        file: 'fractal_generator.py',
+        info: `fractal_generator.py: Python script, ASCII text executable
+
+CLASSICAL FRACTAL GENERATOR v2.0
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+• Mathematical beauty meets nature's patterns
+• Technologies: Python, NumPy, OpenGL, Matplotlib
+• Features: Mandelbrot, Julia sets, custom algorithms
+• Applications: Biomimicry research, pattern analysis
+• Status: GENERATING INFINITE COMPLEXITY`
+      },
+      gis: {
+        file: 'gis_hazard_surveillance',
+        info: `gis_hazard_surveillance: ELF 64-bit LSB executable
+
+GIS HAZARD SURVEILLANCE SYSTEM v1.5
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+• Real-time landslide & flood monitoring
+• Technologies: GIS, Python, Geospatial analysis
+• Features: Risk assessment, early warning system
+• Coverage: Nepal region hazard mapping
+• Status: PROTECTING COMMUNITIES`
+      }
+    };
+
+    function showProject(projectKey) {
+      const project = projects[projectKey];
+      const detailsSection = document.getElementById('project-details');
+      const fileSpan = document.getElementById('project-file');
+      const fileSpan2 = document.getElementById('project-file2');
+      const output = document.getElementById('project-output');
+      
+      fileSpan.textContent = project.file;
+      fileSpan2.textContent = project.file.split('.')[0];
+      output.textContent = project.info;
+      
+      detailsSection.style.display = 'block';
+      detailsSection.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function contactMethod(method) {
+      switch(method) {
+        case 'email':
+          window.open('mailto:aavashbkt15@gmail.com', '_blank');
+          break;
+        case 'resume':
+          alert('Resume download would be initiated here');
+          break;
+        case 'github':
+          alert('GitHub profile would open here');
+          break;
+      }
+    }
+
+    // Interactive Terminal Commands
+    const commands = {
+      'help': 'Available commands: help, whoami, ls, cat, hack, matrix, clear, contact, skills, projects, uptime, ps, fortune',
+      'whoami': 'aavash - Computer Engineering Student & Code Ninja',
+      'ls': 'blog_engine  fractal_generator.py  gis_hazard_surveillance  iot_station.ino  loan_predictor.py  portfolio.sh',
+      'cat /etc/motd': 'Welcome to Aavash\'s Terminal\n━━━━━━━━━━━━━━━━━━━━━━━━━━\n"Code is poetry written in logic"',
+      'hack': 'Initiating hack sequence... Just kidding! I build, not break.',
+      'matrix': 'Wake up, Neo... The Matrix has you... 🔴💊',
+      'uptime': 'System uptime: 247 days, 13 hours, 37 minutes - Powered by coffee',
+      'ps aux': 'PID    COMMAND\n1337   /bin/portfolio --awesome\n31337  /usr/bin/skills --expert\n42     /opt/coffee_daemon',
+      'fortune': '"The best way to predict the future is to invent it." - Alan Kay',
+      'contact': 'Email: aavashbkt15@gmail.com\nStatus: Ready for new challenges!',
+      'skills': 'Loading skill matrix...\n[████████████████████] 100%\nSkills: C++, Python, Hardware, AI, Problem Solving',
+      'projects': 'Active projects: 5\nCompleted: ∞\nCoffee consumed: Too much to count',
+      'clear': 'CLEAR_SCREEN'
+    };
+
+    let commandHistory = [];
+    let historyIndex = -1;
+
+    function handleCommand(event) {
+      if (event.key === 'Enter') {
+        const input = event.target;
+        const command = input.value.trim().toLowerCase();
+        const output = document.getElementById('commandOutput');
+        
+        if (command === '') return;
+        
+        // Add to history
+        commandHistory.push(command);
+        historyIndex = commandHistory.length;
+        
+        // Display command
+        const commandLine = document.createElement('div');
+        commandLine.innerHTML = `<span class="prompt">guest@aavash-system:~$ </span><span class="command">${command}</span>`;
+        output.appendChild(commandLine);
+        
+        // Execute command
+        const result = document.createElement('div');
+        result.className = 'output';
+        
+        if (commands[command]) {
+          if (command === 'clear') {
+            output.innerHTML = '';
+            input.value = '';
+            return;
+          } else if (command === 'matrix') {
+            result.innerHTML = commands[command];
+            createFloatingText('HACK THE PLANET! 🌍');
+          } else if (command === 'hack') {
+            result.innerHTML = commands[command];
+            triggerGlitchEffect();
+          } else {
+            result.textContent = commands[command];
+          }
+        } else if (command.startsWith('echo ')) {
+          result.textContent = command.substring(5);
+        } else {
+          result.innerHTML = `<span class="error">bash: ${command}: command not found</span>`;
+        }
+        
+        output.appendChild(result);
+        input.value = '';
+        
+        // Scroll to bottom
+        output.scrollTop = output.scrollHeight;
+      } else if (event.key === 'ArrowUp') {
+        event.preventDefault();
+        if (historyIndex > 0) {
+          historyIndex--;
+          event.target.value = commandHistory[historyIndex];
+        }
+      } else if (event.key === 'ArrowDown') {
+        event.preventDefault();
+        if (historyIndex < commandHistory.length - 1) {
+          historyIndex++;
+          event.target.value = commandHistory[historyIndex];
+        } else {
+          historyIndex = commandHistory.length;
+          event.target.value = '';
+        }
+      }
+    }
+
+    // Memory Hacking Game
+    let memoryCards = [];
+    let flippedCards = [];
+    let matchedPairs = 0;
+
+    function initMemoryGame() {
+      const symbols = ['01', '10', '11', '00', 'FF', 'A0', 'B1', 'C2'];
+      const cards = [...symbols, ...symbols].sort(() => Math.random() - 0.5);
+      
+      const gameBoard = document.getElementById('memoryGame');
+      gameBoard.innerHTML = '';
+      memoryCards = [];
+      
+      cards.forEach((symbol, index) => {
+        const cell = document.createElement('div');
+        cell.className = 'memory-cell';
+        cell.dataset.symbol = symbol;
+        cell.dataset.index = index;
+        cell.textContent = '??';
+        cell.onclick = () => flipCard(cell, index);
+        gameBoard.appendChild(cell);
+        memoryCards.push(cell);
+      });
+    }
+
+    function flipCard(cell, index) {
+      if (cell.classList.contains('revealed') || flippedCards.length >= 2) return;
+      
+      cell.classList.add('revealed');
+      cell.textContent = cell.dataset.symbol;
+      flippedCards.push({ cell, symbol: cell.dataset.symbol });
+      
+      if (flippedCards.length === 2) {
+        setTimeout(checkMatch, 1000);
+      }
+    }
+
+    function checkMatch() {
+      const [card1, card2] = flippedCards;
+      const statusEl = document.getElementById('memoryStatus');
+      
+      if (card1.symbol === card2.symbol) {
+        matchedPairs++;
+        statusEl.textContent = `Status: Match found! Pairs: ${matchedPairs}/8`;
+        createFloatingText('MATCH! +100 XP');
+        
+        if (matchedPairs === 8) {
+          statusEl.innerHTML = '<span class="status-online">MEMORY HACKED SUCCESSFULLY! Access granted! 🎉</span>';
+          createFloatingText('SYSTEM COMPROMISED!');
+        }
+      } else {
+        card1.cell.classList.remove('revealed');
+        card2.cell.classList.remove('revealed');
+        card1.cell.textContent = '??';
+        card2.cell.textContent = '??';
+        statusEl.textContent = 'Status: No match. Try again, hacker!';
+      }
+      
+      flippedCards = [];
+    }
+
+    // Network Scanning Functions
+    function pingHost(ip) {
+      createFloatingText(`PING ${ip} - SUCCESS!`);
+      const output = document.createElement('div');
+      output.className = 'log-entry';
+      output.innerHTML = `<span class="timestamp">${new Date().toTimeString().split(' ')[0]}</span> <span class="log-level log-info">[PING]</span> <span>64 bytes from ${ip}: icmp_seq=1 ttl=64 time=0.042 ms</span>`;
+      document.querySelector('.network-monitor').appendChild(output);
+    }
+
+    function connectSSH() {
+      const content = `SSH Connection Established
+━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Welcome to Aavash's secure shell!
+Last login: Never (this is a demo)
+System status: All green 🟢
+Available commands: ls, cat, whoami
+Type 'exit' to disconnect`;
+      
+      showTerminalWindow(content);
+    }
+
+    function connectHTTP() {
+      createFloatingText('HTTP/1.1 200 OK');
+      alert('Blog Engine Status:\n━━━━━━━━━━━━━━━━━━━\n✓ Server: Running\n✓ Response time: 0.8ms\n✓ Status: Optimized\n✓ Uptime: 247 days');
+    }
+
+    function startVulnScan() {
+      const scanEl = document.getElementById('virusScan');
+      const progressEl = document.getElementById('scanProgress');
+      const resultsEl = document.getElementById('vulnResults');
+      
+      scanEl.style.display = 'block';
+      resultsEl.style.display = 'block';
+      
+      let progress = 0;
+      const interval = setInterval(() => {
+        progress += Math.random() * 15;
+        if (progress >= 100) {
+          progress = 100;
+          clearInterval(interval);
+          resultsEl.innerHTML = `[COMPLETE] Vulnerability scan finished
+[INFO] 0 critical vulnerabilities found
+[INFO] 0 high-risk issues detected  
+[SUCCESS] System security: EXCELLENT
+[INFO] Recommendation: Keep up the good work! 🛡️`;
+          createFloatingText('SYSTEM SECURE! 🛡️');
+        }
+        progressEl.style.width = progress + '%';
+      }, 200);
+    }
+
+    // Password Cracking Game
+    const correctPassword = 'aavash123';
+    let attempts = 0;
+
+    function crackPassword(event) {
+      if (event.key === 'Enter') {
+        const input = event.target;
+        const password = input.value;
+        const resultEl = document.getElementById('crackResult');
+        const counterEl = document.getElementById('attemptCounter');
+        
+        attempts++;
+        counterEl.textContent = attempts;
+        
+        if (password.toLowerCase() === correctPassword) {
+          resultEl.innerHTML = `<span class="status-online">[SUCCESS] Password cracked: "${password}"</span>
+<span class="status-online">[ACCESS] Admin privileges obtained! 🔓</span>`;
+          createFloatingText('PASSWORD CRACKED! 🔥');
+          input.disabled = true;
+        } else {
+          const hints = {
+            'admin': 'Hint: Try something more personal...',
+            'password': 'Hint: Include the owner\'s name...',
+            'aavash': 'Hint: Add some numbers...',
+            '123': 'Hint: Start with the name first...'
+          };
+          
+          const hint = hints[password.toLowerCase()] || 'Hint: Think about the system owner...';
+          resultEl.innerHTML = `<span class="error">[FAILED] Incorrect password</span>
+<span class="warning">${hint}</span>`;
+        }
+        
+        input.value = '';
+      }
+    }
+
+    // Utility Functions
+    function createFloatingText(text) {
+      const floatingEl = document.createElement('div');
+      floatingEl.className = 'floating-text';
+      floatingEl.textContent = text;
+      floatingEl.style.left = Math.random() * window.innerWidth + 'px';
+      floatingEl.style.top = Math.random() * window.innerHeight + 'px';
+      document.body.appendChild(floatingEl);
+      
+      setTimeout(() => floatingEl.remove(), 2000);
+    }
+
+    function triggerGlitchEffect() {
+      document.body.classList.add('glitch-text');
+      setTimeout(() => document.body.classList.remove('glitch-text'), 500);
+    }
+
+    function showTerminalWindow(content) {
+      const window = document.getElementById('terminalWindow');
+      const contentEl = document.getElementById('terminalContent');
+      contentEl.textContent = content;
+      window.style.display = 'block';
+    }
+
+    function closeTerminal() {
+      document.getElementById('terminalWindow').style.display = 'none';
+    }
+
+    // Easter Egg - Konami Code
+    let konamiCode = [];
+    const konamiSequence = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'KeyB', 'KeyA'];
+
+    document.addEventListener('keydown', (e) => {
+      konamiCode.push(e.code);
+      if (konamiCode.length > konamiSequence.length) {
+        konamiCode.shift();
+      }
+      
+      if (konamiCode.join(',') === konamiSequence.join(',')) {
+        const easterEgg = document.getElementById('easterEgg');
+        easterEgg.style.display = 'block';
+        createFloatingText('KONAMI CODE ACTIVATED! 🎮');
+        setTimeout(() => easterEgg.style.display = 'none', 3000);
+        konamiCode = [];
+      }
+    });
+
+    // Initialize everything
+    document.addEventListener('DOMContentLoaded', () => {
+      animateProgress();
+      createMatrixRain();
+      initMemoryGame();
+      
+      // Auto-update scan timestamps
+      setInterval(() => {
+        ['scanTime1', 'scanTime2', 'scanTime3', 'scanTime4'].forEach(id => {
+          const el = document.getElementById(id);
+          if (el) el.textContent = new Date().toTimeString().split(' ')[0];
+        });
+      }, 10000);
+    });
+
+    // Add some random log entries
+    setInterval(() => {
+      const logs = [
+        'Coffee levels: OPTIMAL - productivity enhanced',
+        'New commit pushed to neural-network branch',
+        'System performance: 137% efficiency achieved',
+        'Bug hunting protocol: 3 vulnerabilities eliminated',
+        'Biomimicry algorithm: Pattern recognition improved'
+      ];
+      
+      if (Math.random() < 0.1) {
+        console.log('[SYSTEM] ' + logs[Math.floor(Math.random() * logs.length)]);
+      }
+    }, 3000);
+  </script>
 </body>
-</html
+</html>
